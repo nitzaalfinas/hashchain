@@ -6,6 +6,7 @@
     "start": "node ./bin/hashchain"
   },
   "dependencies": {
+    "app-root-path": "^2.0.1",
     "bignumber.js": "^4.1.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
