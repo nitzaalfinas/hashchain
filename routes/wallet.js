@@ -49,7 +49,14 @@ router.post('/create_post', function(req, res, next) {
                     returnFail(errB);
                 }
                 else {
-                    res.redirect('/wallet/create?flash_msg=Cool');
+                    fs.writeFile(keychainFile + '.pub', rsaKeyPublic, function(errC){
+                        if(errC) {
+                            returnFail(errC);
+                        }
+                        else {
+                            res.redirect('/wallet/create?flash_msg=Cool');
+                        }
+                    });
                 }
             });
         }

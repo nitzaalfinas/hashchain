@@ -10,6 +10,7 @@ var SessionFileStore  = require('session-file-store')(session);
 
 var index            = require('./routes/index');
 var wallet           = require('./routes/wallet');
+var transfer         = require('./routes/transfer');
 
 
 var app = express();
@@ -42,6 +43,7 @@ app.use(session({
 
 app.use('/', index);
 app.use('/wallet', wallet);
+app.use('/transfer', transfer);
 
 
 // catch 404 and forward to error handler
