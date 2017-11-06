@@ -5,6 +5,8 @@ var cryptico = require('cryptico');
 var fs       = require('fs');
 var appRoot  = require('app-root-path');
 
+var db = require('../config/db');
+
 router.get('/', function(req, res, next) {
     res.render('transfer/index', {
         flash_msg: req.query.flash_msg
@@ -21,6 +23,9 @@ router.post('/post', function(req, res, next) {
     var returnFail = function(msg) {
         res.redirect('/transfer?flash_msg=' + encodeURI(msg));
     }
+
+    // ambil dulu semua balance pengirim
+
 
 
     // the private key file must be exists

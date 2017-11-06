@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var cryptico = require('cryptico');
+var ursa     = require('ursa');
 var fs       = require('fs');
 var appRoot  = require('app-root-path');
 
@@ -16,10 +16,11 @@ Creating wallet
 
 ---
 Process
-1. Generate RSA private key
-2. Generate public key from the private key
-3. Store the private key in the file
-4. Store the public key in the file with .pub extension
+1. Generate key
+2. Generate RSA private key
+3. Generate public key from the private key
+4. Store the private key in the file
+5. Store the public key in the file with .pub extension
 */
 router.post('/create_post', function(req, res, next) {
 
@@ -27,12 +28,13 @@ router.post('/create_post', function(req, res, next) {
     var passphrase = req.body.passphrase;
 
     // 1.
-    var rsaKeyPrivate = cryptico.generateRSAKey(passphrase, 512);
-    console.log('rsaKeyPrivate', JSON.stringify(rsaKeyPrivate));
+    var key = ursa.generatePrivateKey(1024, 65537);
 
     // 2.
-    var rsaKeyPublic = cryptico.publicKeyString(rsaKeyPrivate);
-    //console.log('rsaKeyPublic', rsaKeyPublic)
+    var privkeypem = key.toPrivatePem();
+
+    // 3.
+    var pubkeypem = key.toPublicPem();
 
     var keychainFile = appRoot + '/thedata/key/' + fileName;
 
@@ -40,7 +42,7 @@ router.post('/create_post', function(req, res, next) {
         res.redirect('/wallet/create?flash_msg=' + encodeURI(msg));
     }
 
-    fs.open(keychainFile, 'wx', function(err){
+    fs.open(keychainFile + '.pri.pem', 'wx', function(err){
         if(err) {
             if(err.code === 'EEXIST') {
                 returnFail('File exists');
@@ -49,14 +51,14 @@ router.post('/create_post', function(req, res, next) {
             throw err;
         }
         else {
-            // 3.
-            fs.writeFile(keychainFile, JSON.stringify(rsaKeyPrivate.toJSON()), function(errB){
+            // 4.
+            fs.writeFile(keychainFile + '.pri.pem', privkeypem, function(errB){
                 if(errB) {
                     returnFail(errB);
                 }
                 else {
-                    // 4.
-                    fs.writeFile(keychainFile + '.pub', rsaKeyPublic, function(errC){
+                    // 5.
+                    fs.writeFile(keychainFile + '.pub.pem', pubkeypem, function(errC){
                         if(errC) {
                             returnFail(errC);
                         }

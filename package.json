@@ -8,16 +8,18 @@
   "dependencies": {
     "app-root-path": "^2.0.1",
     "bignumber.js": "^4.1.0",
+    "bluebird": "^3.5.1",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
-    "cryptico": "^1.0.2",
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "express": "~4.15.2",
     "express-session": "^1.13.0",
+    "mongodb": "^2.1.19",
     "fs": "*",
     "morgan": "^1.9.0",
     "serve-favicon": "~2.4.2",
-    "session-file-store": "^1.1.2"
+    "session-file-store": "^1.1.2",
+    "ursa": "^0.9.4"
   }
 }

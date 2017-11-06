@@ -12,6 +12,18 @@ var index            = require('./routes/index');
 var wallet           = require('./routes/wallet');
 var transfer         = require('./routes/transfer');
 
+// mongodb
+var db = require('./config/db');
+db.connect('mongodb://localhost:27017/datachain' + db.dbname, function(err) {
+	if (err) {
+		console.log('Unable to connect to Mongo.');
+		process.exit(1);
+	}
+	else {
+        console.log('Mongodb is running...');
+	}
+});
+
 
 var app = express();
 
